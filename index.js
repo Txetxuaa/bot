@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 const axios = require('axios');
+const http = require('http'); // Añadimos el módulo HTTP
 
 // Configura el cliente de Discord
 const client = new Client({
@@ -90,3 +91,13 @@ client.on('messageCreate', async (message) => {
 
 // Iniciar el bot
 client.login(process.env.DISCORD_TOKEN);
+
+// Servidor HTTP simple para evitar que Render marque el servicio como fallido
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Bot de Discord en funcionamiento\n');
+});
+
+server.listen(3000, () => {
+  console.log('Servidor HTTP escuchando en el puerto 3000');
+});
